@@ -1,6 +1,7 @@
 import GameEnv from './GameEnv.js';
 import Background from './Background.js';
-import Platform from './Platform.js';
+import Floor from './Floor.js';
+//import Platform from './Platform.js';
 import Player from './Player.js';
 import Tube from './Tube.js';
 import Enemy from './Enemy.js';
@@ -11,7 +12,8 @@ class GameLevel {
         // conditional assignments from GameObject to instance variables
         this.tag = gameObject?.tag;
         this.backgroundImg = gameObject.background?.file;
-        this.platformImg = gameObject.platform?.file;
+        this.floorImg = gameObject.floor?.file;
+        //this.platformImg = gameObject.platform?.file;
         this.playerImg = gameObject.player?.file;
         this.playerData = gameObject?.player;
         this.enemyImg = gameObject.enemy?.file;
@@ -29,9 +31,12 @@ class GameLevel {
         if (this.backgroundImg) {
             imagesToLoad.push(this.loadImage(this.backgroundImg));
         }
-        if (this.platformImg) {
-            imagesToLoad.push(this.loadImage(this.platformImg));
+        if (this.floorImg) {
+            imagesToLoad.push(this.loadImage(this.floorImg));
         }
+        //if (this.platformImg) {
+            //imagesToLoad.push(this.loadImage(this.platformImg));
+       // }
         if (this.playerImg) {
             imagesToLoad.push(this.loadImage(this.playerImg));
         }
@@ -57,15 +62,26 @@ class GameLevel {
                 i++;
             }
 
+            // Prepare HTML with Floor Canvas (if floorImg is defined)
+            if (this.floorImg) {
+                const floorCanvas = document.createElement("canvas");
+                floorCanvas.id = "floor";
+                document.querySelector("#canvasContainer").appendChild(floorCanvas);
+                const floorSpeedRatio = 0;
+                new Floor(floorCanvas, loadedImages[i], floorSpeedRatio);
+                i++;
+            }
+
+
             // Prepare HTML with Platform Canvas (if platformImg is defined)
-            if (this.platformImg) {
+            /*if (this.platformImg) {
                 const platformCanvas = document.createElement("canvas");
                 platformCanvas.id = "platform";
                 document.querySelector("#canvasContainer").appendChild(platformCanvas);
                 const platformSpeedRatio = 0;
                 new Platform(platformCanvas, loadedImages[i], platformSpeedRatio);
                 i++;
-            }
+            }*/
 
             // Prepare HTML with Player Canvas (if playerImg is defined)
             if (this.playerImg) {

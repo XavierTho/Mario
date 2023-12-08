@@ -1,7 +1,7 @@
 import GameEnv from './GameEnv.js';
 import GameObject from './GameObject.js';
 
-export class Platform extends GameObject {
+export class Floor extends GameObject {
     constructor(canvas, image, speedRatio) {
         super(canvas, image, speedRatio);
     }
@@ -24,8 +24,8 @@ export class Platform extends GameObject {
         this.ctx.drawImage(this.image, this.x + this.width, this.y);
     }
 
-    /* Background camvas is set to screen
-     * the ADJUST contant elements portions of image that don't wrap well
+    /* Background canvas is set to screen
+     * the ADJUST content elements portions of image that don't wrap well
      * the GameEnv.top is a getter used to set canvas under Menu
      * the GameEnv.bottom is setter used to establish game bottom at offsetHeight of canvas 
     */ 
@@ -36,16 +36,16 @@ export class Platform extends GameObject {
         const canvasWidth = GameEnv.innerWidth;
         const canvasHeight = canvasWidth / this.aspect_ratio;
         const canvasLeft = 0;
-        GameEnv.platformHeight = scaledHeight;
+        GameEnv.floorHeight = scaledHeight;
     
         this.canvas.width = this.width;
         this.canvas.height = this.height;
         this.canvas.style.width = `${canvasWidth}px`;
-        this.canvas.style.height = `${GameEnv.platformHeight}px`;
+        this.canvas.style.height = `${GameEnv.floorHeight}px`;
         this.canvas.style.position = 'absolute';
         this.canvas.style.left = `${canvasLeft}px`;
         this.canvas.style.top = `${GameEnv.bottom}px`; 
     }
 }
 
-export default Platform;
+export default Floor;
