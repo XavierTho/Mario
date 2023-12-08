@@ -2,6 +2,7 @@ import GameEnv from './GameEnv.js';
 import Character from './Character.js';
 import deathController from './Death.js';
 import Enemy from './Enemy.js';
+import Coin from './Coin.js';
 
 export class Player extends Character{
     // constructors sets up Character object 
@@ -151,11 +152,11 @@ export class Player extends Character{
         if (this.collisionData.touchPoints.other.id === "enemy") {
             // Collision with the left side of the Enemy
             if (this.collisionData.touchPoints.other.left) {
-                deathController.setDeath(1);
+                deathController.setDeath(0);
             }
             // Collision with the right side of the Enemy
             if (this.collisionData.touchPoints.other.right) {
-                deathController.setDeath(1);
+                deathController.setDeath(0);
             }
             // Collision with the top of the Enemy
             if (this.collisionData.touchPoints.other.ontop) {
@@ -164,8 +165,12 @@ export class Player extends Character{
                 this.collisionData.touchPoints.other.destroy();
             }
         }
+
+        //Coin collision
+        if (this.collisionData.touchPoints.other.id === "coin") {
+            this.performMarioSpecial();
+        }
     }
-        
     // Event listener key down
     handleKeyDown(event) {
         if (this.playerData.hasOwnProperty(event.key)) {
@@ -200,6 +205,33 @@ export class Player extends Character{
 
         // Call the parent class's destroy method
         super.destroy();
+    }
+
+    performMarioSpecial() {
+        if (!this.specialActionActive) {
+            // Temporary increase in speed
+            const originalSpeed = this.speed;
+            this.speed *= 4; // You can adjust the multiplier based on your game's design
+
+            //Change the styling and scale of the enemy
+            this.canvas.style.transform = 'scaleX(-1)';
+            this.canvas.style.filter = 'invert(1)';
+            this.canvas.style.transform = 'scale(1.5)';
+
+
+            // Set a timeout to revert the speed to the original value after a certain duration
+            setTimeout(() => {
+                this.speed = originalSpeed;
+                this.canvas.style.transform = 'scaleX(1)';
+                this.canvas.style.filter = 'invert(0)';
+                this.canvas.style.transform = 'scale(1)';
+
+                this.specialActionActive = false; // Reset the flag after the timeout
+            }, 3000);
+            
+            // Set the flag to indicate that the special action is active
+            this.specialActionActive = true;
+        }
     }
 }
 

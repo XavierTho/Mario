@@ -1,10 +1,11 @@
 import GameEnv from './GameEnv.js';
 import Background from './Background.js';
 import Floor from './Floor.js';
-//import Platform from './Platform.js';
+import Platform from './Platform.js';
 import Player from './Player.js';
 import Tube from './Tube.js';
 import Enemy from './Enemy.js';
+import Coin from './Coin.js';
 
 // Store the assets and attributes of the Game at the specific GameLevel.
 class GameLevel {
@@ -13,12 +14,13 @@ class GameLevel {
         this.tag = gameObject?.tag;
         this.backgroundImg = gameObject.background?.file;
         this.floorImg = gameObject.floor?.file;
-        //this.platformImg = gameObject.platform?.file;
+        this.platformImg = gameObject.platform?.file;
         this.playerImg = gameObject.player?.file;
         this.playerData = gameObject?.player;
         this.enemyImg = gameObject.enemy?.file;
         this.enemyData = gameObject?.enemy;
         this.tubeImg = gameObject.tube?.file;
+        this.coinImg = gameObject.coin?.file;
         this.isComplete = gameObject?.callback; // function that determines if level is complete
         GameEnv.levels.push(this);
     }
@@ -34,9 +36,9 @@ class GameLevel {
         if (this.floorImg) {
             imagesToLoad.push(this.loadImage(this.floorImg));
         }
-        //if (this.platformImg) {
-            //imagesToLoad.push(this.loadImage(this.platformImg));
-       // }
+        if (this.platformImg) {
+            imagesToLoad.push(this.loadImage(this.platformImg));
+        }
         if (this.playerImg) {
             imagesToLoad.push(this.loadImage(this.playerImg));
         }
@@ -45,6 +47,9 @@ class GameLevel {
         }
         if (this.tubeImg) {
             imagesToLoad.push(this.loadImage(this.tubeImg));
+        }
+        if (this.coinImg) {
+            imagesToLoad.push(this.loadImage(this.coinImg));
         }
 
         try {
@@ -74,14 +79,14 @@ class GameLevel {
 
 
             // Prepare HTML with Platform Canvas (if platformImg is defined)
-            /*if (this.platformImg) {
+            if (this.platformImg) {
                 const platformCanvas = document.createElement("canvas");
                 platformCanvas.id = "platform";
                 document.querySelector("#canvasContainer").appendChild(platformCanvas);
                 const platformSpeedRatio = 0;
                 new Platform(platformCanvas, loadedImages[i], platformSpeedRatio);
                 i++;
-            }*/
+            }
 
             // Prepare HTML with Player Canvas (if playerImg is defined)
             if (this.playerImg) {
@@ -109,7 +114,15 @@ class GameLevel {
                 new Tube(tubeCanvas, loadedImages[i]);
                 i++;
             }
-
+            
+            // Prepare HTML with Coin Canvas (if coinImg is defined)
+            if (this.coinImg) {
+                const coinCanvas = document.createElement("canvas");
+                coinCanvas.id = "coin";
+                document.querySelector("#canvasContainer").appendChild(coinCanvas);
+                new Coin(coinCanvas, loadedImages[i]);
+                i++;
+            }
         } catch (error) {
             console.error('Failed to load one or more images:', error);
         }

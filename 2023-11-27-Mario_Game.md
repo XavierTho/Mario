@@ -54,6 +54,12 @@ image: /images/platformer/backgrounds/hills.png
         grass: { src: "/images/platformer/platforms/grass.png" },
         alien: { src: "/images/platformer/platforms/alien.png" }
       },
+      platforms: {
+        brick: { src: "/images/platformer/platforms/brick_wall.png" },
+      },
+      powers: {
+        coin: { src: "/images/platformer/Coin.png"},
+      },
       backgrounds: {
         start: { src: "/images/platformer/backgrounds/home.png" },
         hills: { src: "/images/platformer/backgrounds/hills.png" },
@@ -177,7 +183,7 @@ image: /images/platformer/backgrounds/hills.png
     new GameLevel( {tag: "start", callback: startGameCallback } );
     new GameLevel( {tag: "home", background: assets.backgrounds.start, callback: homeScreenCallback } );
     // Game screens
-    new GameLevel( {tag: "hills", background: assets.backgrounds.hills, floor: assets.floors.grass, player: assets.players.mario, enemy: assets.enemies.goomba, tube: assets.obstacles.tube, callback: testerCallBack } );
+    new GameLevel( {tag: "hills", background: assets.backgrounds.hills, floor: assets.floors.grass, platform: assets.platforms.brick, player: assets.players.mario, enemy: assets.enemies.goomba, tube: assets.obstacles.tube, coin: assets.powers.coin, callback: testerCallBack } );
     new GameLevel( {tag: "alien", background: assets.backgrounds.planet, floor: assets.floors.alien, player: assets.players.monkey, callback: testerCallBack } );
     // Game Over screen
     new GameLevel( {tag: "end", background: assets.backgrounds.end, callback: gameOverCallBack } );
