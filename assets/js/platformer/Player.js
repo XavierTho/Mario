@@ -1,5 +1,7 @@
 import GameEnv from './GameEnv.js';
 import Character from './Character.js';
+import deathController from './Death.js';
+import Enemy from './Enemy.js';
 
 export class Player extends Character{
     // constructors sets up Character object 
@@ -111,25 +113,33 @@ export class Player extends Character{
             if (this.movement.down) this.y -= (this.bottom * .33);  // jump 33% higher than bottom
         } 
 
+        //Prevents Player from leaving screen
+        if (this.x <= 0) {
+            this.x += 5
+        }
+
         // Perform super update actions
         super.update();
     }
 
-    // Player action on collisions
+    // Player action on tube collisions
     collisionAction() {
         if (this.collisionData.touchPoints.other.id === "tube") {
             // Collision with the left side of the Tube
             if (this.collisionData.touchPoints.other.left) {
                 this.movement.right = false;
+                console.log("tube touch left");
             }
             // Collision with the right side of the Tube
             if (this.collisionData.touchPoints.other.right) {
                 this.movement.left = false;
+                console.log("tube touch right");
             }
             // Collision with the top of the player
             if (this.collisionData.touchPoints.other.ontop) {
                 this.movement.down = false;
                 this.x = this.collisionData.touchPoints.other.x;
+                console.log("tube touch top");
             }
         } else {
             // Reset movement flags if not colliding with a tube
@@ -137,8 +147,25 @@ export class Player extends Character{
             this.movement.right = true;
             this.movement.down = true;
         }
+        // Enemy collision
+        if (this.collisionData.touchPoints.other.id === "enemy") {
+            // Collision with the left side of the Enemy
+            if (this.collisionData.touchPoints.other.left) {
+                deathController.setDeath(1);
+            }
+            // Collision with the right side of the Enemy
+            if (this.collisionData.touchPoints.other.right) {
+                deathController.setDeath(1);
+            }
+            // Collision with the top of the Enemy
+            if (this.collisionData.touchPoints.other.ontop) {
+                console.log("Bye Goomba");
+                this.y -= (this.bottom * .33);
+                this.collisionData.touchPoints.other.destroy();
+            }
+        }
     }
-    
+        
     // Event listener key down
     handleKeyDown(event) {
         if (this.playerData.hasOwnProperty(event.key)) {
