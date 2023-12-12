@@ -125,6 +125,50 @@ export class Player extends Character{
 
     // Player action on tube collisions
     collisionAction() {
+        // Enemy collision
+        if (this.collisionData.touchPoints.other.id === "enemy") {
+            // Collision with the left side of the Enemy
+            if (this.collisionData.touchPoints.other.left) {
+                deathController.setDeath(1);
+            }
+            // Collision with the right side of the Enemy
+            if (this.collisionData.touchPoints.other.right) {
+                deathController.setDeath(1);
+            }
+            // Collision with the top of the Enemy
+            if (this.collisionData.touchPoints.other.ontop) {
+                console.log("Bye Goomba");
+                this.y -= (this.bottom * .33);
+            }
+        }
+        if (this.collisionData.touchPoints.other.id === "platform") {
+            // Collision with the left side of the Platform
+            console.log("id")
+            if (this.collisionData.touchPoints.other.left && (this.topOfPlatform === true)) {
+                this.movement.right = false;
+            }
+            // Collision with the right side of the platform
+            if (this.collisionData.touchPoints.other.right && (this.topOfPlatform === true)) {
+                this.movement.left = false;
+            }
+            // Collision with the top of the player
+            if (this.collisionData.touchPoints.this.ontop) {
+                this.gravityEnabled = false;
+            }
+            if (this.collisionData.touchPoints.this.bottom) {
+                this.gravityEnabled = false;
+            }
+            if (this.collisionData.touchPoints.this.top) {
+                this.gravityEnabled = false;
+                this.topOfPlatform = true; 
+            }
+        } else {
+            this.topOfPlatform = false;
+            this.movement.left = true;
+            this.movement.right = true;
+            this.movement.down = true;
+            this.gravityEnabled = true;
+        }
         if (this.collisionData.touchPoints.other.id === "tube") {
             // Collision with the left side of the Tube
             if (this.collisionData.touchPoints.other.left) {
@@ -147,23 +191,6 @@ export class Player extends Character{
             this.movement.left = true;
             this.movement.right = true;
             this.movement.down = true;
-        }
-        // Enemy collision
-        if (this.collisionData.touchPoints.other.id === "enemy") {
-            // Collision with the left side of the Enemy
-            if (this.collisionData.touchPoints.other.left) {
-                deathController.setDeath(0);
-            }
-            // Collision with the right side of the Enemy
-            if (this.collisionData.touchPoints.other.right) {
-                deathController.setDeath(0);
-            }
-            // Collision with the top of the Enemy
-            if (this.collisionData.touchPoints.other.ontop) {
-                console.log("Bye Goomba");
-                this.y -= (this.bottom * .33);
-                this.collisionData.touchPoints.other.destroy();
-            }
         }
 
         //Coin collision
