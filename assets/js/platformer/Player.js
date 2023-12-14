@@ -130,6 +130,7 @@ export class Player extends Character{
             // Collision with the left side of the Enemy
             if (this.collisionData.touchPoints.other.left) {
                 deathController.setDeath(1);
+                // GameControl.transitionToLevel(GameEnv.levels[currentIndex + 1]);
             }
             // Collision with the right side of the Enemy
             if (this.collisionData.touchPoints.other.right) {
