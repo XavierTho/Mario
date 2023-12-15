@@ -15,19 +15,20 @@ export class Background extends GameObject {
         this.x = (this.x - this.speed) % this.width;
 
         //If at Start or End, disable moving of backgrounds
-        if (GameEnv.levels.indexOf(GameEnv.currentLevel) === 4 || 1) {
+        if (GameEnv.levels.indexOf(GameEnv.currentLevel) === 4 || GameEnv.levels.indexOf(GameEnv.currentLevel) === 1) {
             this.speed = 0;
             this.speed = 0;
         } else { //enable background moving again
             this.speed = GameEnv.cloudSpeed;
             this.speed = GameEnv.backgroundSpeed;
-        }
+        
 
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         //Log Current Level
         console.log(GameEnv.levels.indexOf(GameEnv.currentLevel));
     }
+}
 
     /* To draws are used to capture primary frame and wrap around ot next frame
      * x to y is primary draw
