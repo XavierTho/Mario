@@ -1,10 +1,13 @@
 import GameEnv from './GameEnv.js';
 import GameObject from './GameObject.js';
 
-export class Background extends GameObject {
+export class Clouds extends GameObject {
     constructor(canvas, image, speedRatio) {
         super(canvas, image, speedRatio);
+        this.x = -1000;
     }
+
+
 
     /* Update uses modulo math to cycle to start at width extent
     *  x is position in cycle 
@@ -12,21 +15,8 @@ export class Background extends GameObject {
     *  width is extent of background image
     */
     update() {
+        this.speed = GameEnv.cloudSpeed;
         this.x = (this.x - this.speed) % this.width;
-
-        //If at Start or End, disable moving of backgrounds
-        if (GameEnv.levels.indexOf(GameEnv.currentLevel) === 4 || 1) {
-            this.speed = 0;
-            this.speed = 0;
-        } else { //enable background moving again
-            this.speed = GameEnv.cloudSpeed;
-            this.speed = GameEnv.backgroundSpeed;
-        }
-
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-        //Log Current Level
-        console.log(GameEnv.levels.indexOf(GameEnv.currentLevel));
     }
 
     /* To draws are used to capture primary frame and wrap around ot next frame
@@ -65,4 +55,4 @@ export class Background extends GameObject {
     }
 }
 
-export default Background;
+export default Clouds;

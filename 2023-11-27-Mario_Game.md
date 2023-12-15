@@ -63,6 +63,7 @@ image: /images/platformer/backgrounds/hills.png
       backgrounds: {
         start: { src: "/images/platformer/backgrounds/home.png" },
         hills: { src: "/images/platformer/backgrounds/hills.png" },
+        clouds: { src: "/images/platformer/backgrounds/clouds.jpg"},
         planet: { src: "/images/platformer/backgrounds/planet.jpg" },
         castles: { src: "/images/platformer/backgrounds/castles.png" },
         end: { src: "/images/platformer/backgrounds/game_over.png" }
@@ -194,7 +195,7 @@ image: /images/platformer/backgrounds/hills.png
     new GameLevel( {tag: "start", callback: startGameCallback } );
     new GameLevel( {tag: "home", background: assets.backgrounds.start, callback: homeScreenCallback } );
     // Game screens
-    new GameLevel( {tag: "hills", background: assets.backgrounds.hills, floor: assets.floors.grass, platform: assets.platforms.brick, player: assets.players.mario, enemy: assets.enemies.goomba, tube: assets.obstacles.tube, coin: assets.powers.coin, callback: testerCallBack } );
+    new GameLevel( {tag: "hills", background: assets.backgrounds.hills, clouds: assets.backgrounds.clouds, floor: assets.floors.grass, platform: assets.platforms.brick, player: assets.players.mario, enemy: assets.enemies.goomba, tube: assets.obstacles.tube, coin: assets.powers.coin, callback: testerCallBack } );
     new GameLevel( {tag: "alien", background: assets.backgrounds.planet, floor: assets.floors.alien, player: assets.players.lopez, callback: testerCallBack } );
     // Game Over screen
     new GameLevel( {tag: "end", background: assets.backgrounds.end, callback: gameOverCallBack } );

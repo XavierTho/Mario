@@ -20,6 +20,10 @@ export class GameEnv {
     static backgroundHeight = 0;
     static platformHeight = 0;
 
+    //Background Speeds
+    static cloudSpeed = 0;
+    static backgroundSpeed = 0;
+
     // canvas filter property
     static isInverted = true;
 

@@ -5,6 +5,7 @@ import Platform from './Platform.js';
 import Player from './Player.js';
 import Tube from './Tube.js';
 import Enemy from './Enemy.js';
+import Clouds from './Clouds.js';
 import Coin from './Coin.js';
 
 // Store the assets and attributes of the Game at the specific GameLevel.
@@ -12,6 +13,7 @@ class GameLevel {
     constructor(gameObject) {
         // conditional assignments from GameObject to instance variables
         this.tag = gameObject?.tag;
+        this.cloudsImg = gameObject.clouds?.file;
         this.backgroundImg = gameObject.background?.file;
         this.floorImg = gameObject.floor?.file;
         this.platformImg = gameObject.platform?.file;
@@ -30,6 +32,9 @@ class GameLevel {
         
         // test for presence of Images
         const imagesToLoad = [];
+        if (this.cloudsImg) {
+            imagesToLoad.push(this.loadImage(this.cloudsImg));
+        }
         if (this.backgroundImg) {
             imagesToLoad.push(this.loadImage(this.backgroundImg));
         }
@@ -56,6 +61,16 @@ class GameLevel {
             // Do not proceed until images are loaded
             const loadedImages = await Promise.all(imagesToLoad);
             var i = 0;
+
+            //Prepare HTML with Cloud Canvas (if cloudImg is defined);
+            if (this.cloudsImg) {
+                const backgroundCanvas = document.createElement("canvas");
+                backgroundCanvas.id = "background";
+                document.querySelector("#canvasContainer").appendChild(backgroundCanvas);
+                const backgroundSpeedRatio = 0;
+                new Clouds(backgroundCanvas, loadedImages[i], backgroundSpeedRatio);
+                i++;
+            }
 
             // Prepare HTML with Background Canvas (if backgroundImg is defined)
             if (this.backgroundImg) {

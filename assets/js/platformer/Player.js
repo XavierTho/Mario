@@ -209,6 +209,16 @@ export class Player extends Character{
                 // player active
                 this.isIdle = false;
             }
+
+            //Move backgrounds when player moves
+            if (key ==="a") {
+                GameEnv.cloudSpeed = -0.2;
+                GameEnv.backgroundSpeed = -0.4;
+            }
+            if (key === "d") {
+                GameEnv.cloudSpeed = 0.2;
+                GameEnv.backgroundSpeed = 0.4;
+            }
         }
     }
 
@@ -219,6 +229,17 @@ export class Player extends Character{
             if (event.key in this.pressedKeys) {
                 delete this.pressedKeys[event.key];
             }
+
+            //Stop movement of backgrounds when idle
+            if (key === "a") {
+                GameEnv.backgroundSpeed = 0;
+                GameEnv.cloudSpeed = 0;
+            }
+            if (key === "d") {
+                GameEnv.cloudSpeed = 0;
+                GameEnv.backgroundSpeed = 0;
+            }
+            
             this.setAnimation(key);  
             // player idle
             this.isIdle = true;     
