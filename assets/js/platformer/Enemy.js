@@ -21,7 +21,7 @@ export class Enemy extends Character {
 
     update() {
         // Check if the enemy is at the left or right boundary
-        if (this.x <= 0 || this.x + this.width >= GameEnv.innerWidth) {
+        if (this.x <= 0 || this.x + this.width >= (GameEnv.innerWidth * 1.06)) {
             // Change direction by reversing the speed
             this.speed = -this.speed;
         }
