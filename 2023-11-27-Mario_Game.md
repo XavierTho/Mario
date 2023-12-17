@@ -7,10 +7,30 @@ image: /images/platformer/backgrounds/hills.png
 ---
 
 <style>
-    #gameBegin, #controls, #gameOver {
-        position: relative;
-        z-index: 2; /*Ensure the controls are on top*/
+  #gameBegin, #controls, #gameOver {
+    position: relative;
+    z-index: 2; /*Ensure the controls are on top*/
+  }
+  
+  #toggleCanvasEffect, #background, #platform {
+    animation: fadein 5s;
+  }
+
+  @keyframes flash {
+    50% {
+      opacity: 0;
     }
+  }
+
+  @keyframes fadeout {
+    from {opacity: 1}
+    to {opacity: 0}
+  }
+
+  @keyframes fadein {
+    from {opacity: 0}
+    to {opacity: 1}
+  }
 </style>
 
 <!-- Load the YouTube Iframe API script -->
@@ -211,5 +231,4 @@ image: /images/platformer/backgrounds/hills.png
 
     // start game
     GameControl.gameLoop();
-
 </script>
