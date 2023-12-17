@@ -1,8 +1,6 @@
 import GameEnv from './GameEnv.js';
 import Character from './Character.js';
 import deathController from './Death.js';
-import Enemy from './Enemy.js';
-import Coin from './Coin.js';
 
 export class Player extends Character{
     // constructors sets up Character object 
@@ -69,7 +67,7 @@ export class Player extends Character{
     
         // verify key is in active animations
         if (key in this.pressedKeys) {
-            result = (!this.isIdle && this.bottom <= this.y);
+            result = (!this.isIdle && (this.topOfPlatform ||this.bottom <= this.y));
         }
 
         // scene for on top of tube animation
@@ -116,7 +114,7 @@ export class Player extends Character{
 
         //Prevents Player from leaving screen
         if (this.x <= 0) {
-            this.x += 5
+            this.x = 0;
         }
 
         // Perform super update actions
