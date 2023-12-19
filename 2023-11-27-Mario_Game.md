@@ -7,40 +7,56 @@ image: /images/platformer/backgrounds/hills.png
 ---
 
 <style>
-  #gameBegin, #controls, #gameOver {
-    position: relative;
-    z-index: 2; /*Ensure the controls are on top*/
-  }
-  
-  #toggleCanvasEffect, #background, #platform {
-    animation: fadein 5s;
-  }
-
-  @keyframes flash {
-    50% {
-      opacity: 0;
+    #gameBegin, #controls, #gameOver, #settings {
+      position: relative;
+        z-index: 2; /*Ensure the controls are on top*/
     }
-  }
-
-  @keyframes fadeout {
-    from {opacity: 1}
-    to {opacity: 0}
-  }
-
-  @keyframes fadein {
-    from {opacity: 0}
-    to {opacity: 1}
-  }
+    .sidenav {
+      position: fixed;
+      height: 100%; /* 100% Full-height */
+      width: 0px; /* 0 width - change this with JavaScript */
+      z-index: 3; /* Stay on top */
+      top: 0; /* Stay at the top */
+      left: 0;
+      overflow-x: hidden; /* Disable horizontal scroll */
+      padding-top: 60px; /* Place content 60px from the top */
+      transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+      background-color: black;
+    }
+    #toggleCanvasEffect, #background, #foreground, #platform {
+      animation: fadein 1s;
+    }
+    #startGame {
+      animation: flash 0.5s infinite;
+    }
+    @keyframes flash {
+      50% {
+        opacity: 0;
+      }
+    }
+    @keyframes fadeout {
+      from {opacity: 1}
+      to {opacity: 0}
+    }
+    @keyframes fadein {
+      from {opacity: 0}
+      to {opacity: 1}
+    }
 </style>
-
 <!-- Load the YouTube Iframe API script -->
 <script async src="https://www.youtube.com/iframe_api"></script>
-
 <!-- Prepare DOM elements -->
 <!-- Wrap both the canvas and controls in a container div -->
 <div id="canvasContainer">
     <!-- Add this div to contain the YouTube video player -->
     <div id="youtubePlayer"></div>
+    <div id="mySidebar" class="sidenav">
+      <a href="javascript:void(0)" id="toggleSettingsBar1" class="closebtn">&times;</a>
+    </div>
+    <div id="score" style="position: absolute; top: 75px; left: 10px; color: black; font-size: 20px; background-color: white;">
+      Time: <span id="timeScore">0</span>
+    </div>
+    <div id="canvasContainer">
     <div id="gameBegin" hidden>
         <button id="startGame">Start Game</button>
     </div>
@@ -48,8 +64,13 @@ image: /images/platformer/backgrounds/hills.png
         <!-- Background controls -->
         <button id="toggleCanvasEffect">Invert</button>
     </div>
+    <div id="settings"> <!-- Controls -->
+        <!-- Background controls -->
+        <button id="toggleSettingsBar">Settings</button>
+    </div>
     <div id="gameOver" hidden>
         <button id="restartGame">Restart</button>
+    </div>
     </div>
 </div>
 
@@ -58,7 +79,8 @@ image: /images/platformer/backgrounds/hills.png
     import GameEnv from '{{site.baseurl}}/assets/js/platformer/GameEnv.js';
     import GameLevel from '{{site.baseurl}}/assets/js/platformer/GameLevel.js';
     import GameControl from '{{site.baseurl}}/assets/js/platformer/GameControl.js';
-    import  { playMusic } from '{{site.baseurl}}/assets/js/platformer/Music.js';
+    import Controller from '{{site.baseurl}}/assets/js/platformer/Controller.js';
+    var myController = new Controller();
 
     /*  ==========================================
      *  ======= Data Definitions =================
@@ -231,4 +253,18 @@ image: /images/platformer/backgrounds/hills.png
 
     // start game
     GameControl.gameLoop();
+    // Initialize Local Storage
+  myController.initialize();
+  var table = myController.levelTable;
+    document.getElementById("mySidebar").append(table);
+  var toggle = false;
+    function toggleWidth(){
+      toggle = !toggle;
+      document.getElementById("mySidebar").style.width = toggle?"250px":"0px";
+    }
+    document.getElementById("toggleSettingsBar").addEventListener("click",toggleWidth);
+    document.getElementById("toggleSettingsBar1").addEventListener("click",toggleWidth);
+
+    var div = myController.speedDiv;
+    document.getElementById("mySidebar").append(div);
 </script>
