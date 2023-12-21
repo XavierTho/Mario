@@ -29,6 +29,16 @@ image: /images/platformer/backgrounds/hills.png
     #startGame {
       animation: flash 0.5s infinite;
     }
+    #score {
+      position: absolute;
+      top: 75px;
+      left: 10px;
+      color: black;
+      font-size: 20px;
+      margin-left: 50%;
+      background-color: #dddddd;
+    }
+
     @keyframes flash {
       50% {
         opacity: 0;
@@ -53,9 +63,6 @@ image: /images/platformer/backgrounds/hills.png
     <div id="mySidebar" class="sidenav">
       <a href="javascript:void(0)" id="toggleSettingsBar1" class="closebtn">&times;</a>
     </div>
-    <div id="score" style="position: absolute; top: 75px; left: 10px; color: black; font-size: 20px; background-color: white;">
-      Time: <span id="timeScore">0</span>
-    </div>
     <div id="canvasContainer">
     <div id="gameBegin" hidden>
         <button id="startGame">Start Game</button>
@@ -67,11 +74,15 @@ image: /images/platformer/backgrounds/hills.png
     <div id="settings"> <!-- Controls -->
         <!-- Background controls -->
         <button id="toggleSettingsBar">Settings</button>
+        <button id="leaderboardButton">Leaderboard</button>
     </div>
     <div id="gameOver" hidden>
         <button id="restartGame">Restart</button>
     </div>
     </div>
+</div>
+<div id="score">
+  Time: <span id="timeScore">0</span>
 </div>
 
 <script type="module">
@@ -80,6 +91,8 @@ image: /images/platformer/backgrounds/hills.png
     import GameLevel from '{{site.baseurl}}/assets/js/platformer/GameLevel.js';
     import GameControl from '{{site.baseurl}}/assets/js/platformer/GameControl.js';
     import Controller from '{{site.baseurl}}/assets/js/platformer/Controller.js';
+    import {playMusic} from '{{site.baseurl}}/assets/js/platformer/Music.js';
+    import '{{site.baseurl}}/assets/js/platformer/Leaderboard.js';
     var myController = new Controller();
 
     /*  ==========================================
@@ -211,19 +224,39 @@ image: /images/platformer/backgrounds/hills.png
     }
 
     // Game Over callback
-    async function gameOverCallBack() {
-      const id = document.getElementById("gameOver");
-      id.hidden = false;
+   async function gameOverCallBack() {
+    const id = document.getElementById("gameOver");
+    id.hidden = false;
 
-      // Use waitForRestart to wait for the restart button click
-      await waitForButton('restartGame');
-      id.hidden = true;
+    // Store whether the game over screen has been shown before
+    const gameOverScreenShown = localStorage.getItem("gameOverScreenShown");
 
-      // Change currentLevel to start/restart value of null
-      GameEnv.currentLevel = null;
+    // Check if the game over screen has been shown before
+    if (!gameOverScreenShown) {
+      const playerScore = document.getElementById("timeScore").innerHTML;
+      let playerName = prompt(`You scored ${playerScore}! What is your name?`);
 
-      return true;
+      // Check if playerName is not null, undefined, or an empty string
+      if (playerName != null && playerName.trim() !== "") {
+        let temp = localStorage.getItem("playerScores") || ""; // Initialize to an empty string if null
+        temp += playerName + ":" + playerScore.toString() + ";";
+        localStorage.setItem("playerScores", temp);
+      }
+
+      // Set a flag in local storage to indicate that the game over screen has been shown
+      localStorage.setItem("gameOverScreenShown", "true");
     }
+    
+
+    // Use waitForRestart to wait for the restart button click
+    await waitForButton('restartGame');
+    id.hidden = true;
+    // Change currentLevel to start/restart value of null
+    GameEnv.currentLevel = null;
+    // Reset the flag so that the game over screen can be shown again on the next game over
+    localStorage.removeItem("gameOverScreenShown");
+    return true;
+  }
 
     /*  ==========================================
      *  ========== Game Level setup ==============
@@ -253,11 +286,12 @@ image: /images/platformer/backgrounds/hills.png
 
     // start game
     GameControl.gameLoop();
+
     // Initialize Local Storage
-  myController.initialize();
-  var table = myController.levelTable;
+    myController.initialize();
+    var table = myController.levelTable;
     document.getElementById("mySidebar").append(table);
-  var toggle = false;
+    var toggle = false;
     function toggleWidth(){
       toggle = !toggle;
       document.getElementById("mySidebar").style.width = toggle?"250px":"0px";
