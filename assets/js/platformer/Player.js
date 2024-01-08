@@ -102,6 +102,9 @@ export class Player extends Character{
 
     // Player updates
     update() {
+        if (this.isAnimation("s")) {
+            this.speed += 2;
+        }
         if (this.isAnimation("a")) {
             if (this.movement.left) this.x -= this.speed;  // Move to left
         }
@@ -111,6 +114,9 @@ export class Player extends Character{
         if (this.isGravityAnimation("w")) {
             if (this.movement.down) this.y -= (this.bottom * .33);  // jump 33% higher than bottom
         } 
+        if (this.isAnimation("s")) {
+            this.speed = (this.speed / 2)
+        }
 
         //Prevents Player from leaving screen
         if (this.x <= 0) {
