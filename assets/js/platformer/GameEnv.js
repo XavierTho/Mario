@@ -124,13 +124,14 @@ function updateTimer() {
         stopTimer()
         time=-1
     }
-   time++; // Increment time (you can adjust this based on your game logic)
+   time += 0.001; // Increment time (you can adjust this based on your game logic)
 
 
    // Display the updated time in the span element with id 'timeScore'
    const timeScoreElement = document.getElementById('timeScore');
    if (timeScoreElement) {
        timeScoreElement.textContent = time; // Update the displayed time
+       timeScoreElement.textContent = time.toFixed(3);
    }
 }
 
@@ -138,7 +139,7 @@ function updateTimer() {
 // Function to start the timer
 function startTimer() {
    // Start the timer interval, updating the timer every second (1000 milliseconds)
-   timerInterval = setInterval(updateTimer, 1000);
+   timerInterval = setInterval(updateTimer, 0.1);
 }
 
 
