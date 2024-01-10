@@ -26,7 +26,7 @@ export class Background extends GameObject {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         //Log Current Level
-        console.log(GameEnv.levels.indexOf(GameEnv.currentLevel));
+        // console.log(GameEnv.levels.indexOf(GameEnv.currentLevel));
     }
 }
 

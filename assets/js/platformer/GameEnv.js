@@ -122,9 +122,8 @@ function updateTimer() {
     const id = document.getElementById("gameOver");
     if (id.hidden == false) {
         stopTimer()
-        time=-1
     }
-   time += 0.001; // Increment time (you can adjust this based on your game logic)
+   time += 0.002; // Increment time (you can adjust this based on your game logic)
 
 
    // Display the updated time in the span element with id 'timeScore'
@@ -139,13 +138,14 @@ function updateTimer() {
 // Function to start the timer
 function startTimer() {
    // Start the timer interval, updating the timer every second (1000 milliseconds)
-   timerInterval = setInterval(updateTimer, 0.1);
+   timerInterval = setInterval(updateTimer, 1);
 }
 
 
 // Function to stop the timer
 function stopTimer() {   
     clearInterval(timerInterval); // Clear the interval to stop the timer
+    time = 0;
  }
 
 
