@@ -234,21 +234,15 @@ image: /images/platformer/backgrounds/hills.png
     // Check if the game over screen has been shown before
     if (!gameOverScreenShown) {
       const playerScore = document.getElementById("timeScore").innerHTML;
-      let playerName = prompt(`You scored ${playerScore}! What is your name?`);
-
-      // Check if playerName is not null, undefined, or an empty string
-      if (playerName != null && playerName.trim() !== "") {
-        let temp = localStorage.getItem("playerScores") || ""; // Initialize to an empty string if null
-        temp += playerName + ":" + playerScore.toString() + ";";
-        localStorage.setItem("playerScores", temp);
-      }
-
+      const playerName = prompt(`You scored ${playerScore}! What is your name?`);
+      let temp = localStorage.getItem("playerScores");
+      temp += playerName + "," + playerScore.toString() + ";";
+      localStorage.setItem("playerScores", temp);
       // Set a flag in local storage to indicate that the game over screen has been shown
       localStorage.setItem("gameOverScreenShown", "true");
-    }
-    
+  }
 
-    // Use waitForRestart to wait for the restart button click
+// Use waitForRestart to wait for the restart button click
     await waitForButton('restartGame');
     id.hidden = true;
     // Change currentLevel to start/restart value of null
@@ -256,8 +250,7 @@ image: /images/platformer/backgrounds/hills.png
     // Reset the flag so that the game over screen can be shown again on the next game over
     localStorage.removeItem("gameOverScreenShown");
     return true;
-  }
-
+    }
     /*  ==========================================
      *  ========== Game Level setup ==============
      *  ==========================================
