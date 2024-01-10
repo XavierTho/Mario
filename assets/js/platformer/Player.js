@@ -104,6 +104,7 @@ export class Player extends Character{
     update() {
         if (this.isAnimation("s")) {
             this.speed += 2;
+            this.performUniqueAction();
         }
         if (this.isAnimation("a")) {
             if (this.movement.left) this.x -= this.speed;  // Move to left
@@ -260,31 +261,22 @@ export class Player extends Character{
         super.destroy();
     }
 
+    performUniqueAction() {
+        // Apply zoom-in effect to the canvas
+        this.canvas.style.transition = "transform 2s";
+        this.canvas.style.transform = "scale(1.25)";
+
+        // Set a timeout to revert the zoom after a certain duration
+        setTimeout(() => {
+            this.canvas.style.transform = "scale(1)";
+            this.canvas.style.transition = "";
+        }, 20000);
+    }
+
     performMarioSpecial() {
-        if (!this.specialActionActive) {
-            // Temporary increase in speed
-            const originalSpeed = this.speed;
-            this.speed *= 4; // You can adjust the multiplier based on your game's design
-
-            //Change the styling and scale of the enemy
-            this.canvas.style.transform = 'scaleX(-1)';
-            this.canvas.style.filter = 'invert(1)';
-            this.canvas.style.transform = 'scale(1.5)';
-
-
-            // Set a timeout to revert the speed to the original value after a certain duration
-            setTimeout(() => {
-                this.speed = originalSpeed;
-                this.canvas.style.transform = 'scaleX(1)';
-                this.canvas.style.filter = 'invert(0)';
-                this.canvas.style.transform = 'scale(1)';
-
-                this.specialActionActive = false; // Reset the flag after the timeout
-            }, 3000);
-            
-            // Set the flag to indicate that the special action is active
-            this.specialActionActive = true;
-        }
+        let luck = Math.random();
+        console.log(luck);
+        luck > 0.75 ? this.x = GameEnv.innerWidth * 1.06 : this.x = GameEnv.innerWidth * 0;
     }
 }
 
