@@ -39,13 +39,11 @@ export class Coin extends GameObject {
         let coinX, coinY;
 
         if (randomPosition) {
-            coinX = (GameEnv.innerWidth - scaledWidth) / 2.5;
-            coinY = (GameEnv.innerHeight - scaledHeight) / 1.01;
-            console.log(`Coin X: ${coinX}; Coin Y: ${coinY}`)
+            coinX = (GameEnv.innerWidth - scaledWidth) / 7;
+            coinY = (GameEnv.innerHeight - scaledHeight) / 1.5;
         } else {
-            coinX = (GameEnv.innerWidth - scaledWidth) / 2.5;
-            coinY = (GameEnv.innerHeight - scaledHeight) / 1.02;
-            console.log(`Coin X: ${coinX}; Coin Y: ${coinY}`)
+            coinX = (GameEnv.innerWidth - scaledWidth) / 7;
+            coinY = (GameEnv.innerHeight - scaledHeight) / 1.5;
         }
 
         // Set variables used in Display and Collision algorithms
@@ -60,6 +58,15 @@ export class Coin extends GameObject {
         this.canvas.style.top = `${coinY}px`;
     }
 
-  }
+    // Method to hide the coin
+    hide() {
+        this.canvas.style.display = 'none';
+    }
+
+    // Method to show the coin
+    show() {
+        this.canvas.style.display = 'block';
+    }
+}
 
 export default Coin;
