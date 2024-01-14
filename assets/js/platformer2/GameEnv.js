@@ -159,6 +159,11 @@ export class GameEnv {
           }
       }
   }
+
+  static PlayerPosition() {
+    let playerX = 0;
+    let playerY = 0;
+  }
 }
 
 export default GameEnv;
