@@ -11,7 +11,6 @@ export class FlyingGoomba extends Character {
         this.x = xPercentage * GameEnv.innerWidth;
         this.y = 1.3 * GameEnv.innerHeight;
         
-
         //Access in which a Goomba can travel
         this.minPosition = minPosition * GameEnv.innerWidth;
         this.maxPosition = this.x + xPercentage * GameEnv.innerWidth;
@@ -20,13 +19,16 @@ export class FlyingGoomba extends Character {
     }
 
     dropGoomba() {
-      let playerX = GameEnv.PlayerPosition.playerX
+      let playerX = GameEnv.PlayerPosition.playerX;
+      let playerY = GameEnv.PlayerPosition.playerY;
 
-      //Drop the Goomba on the Player when relatively close
-      if (Math.abs(this.x - playerX) < 150) {
-        this.y = GameEnv.PlayerPosition.playerY
+      // Drop the Goomba on the Player when relatively close
+      if (Math.abs(this.x - playerX) < 150 && this.y !== playerY) {
+        //Move Goomba towards Player
+        this.y = this.y < playerY ? this.y + 0.1 : this.y - 0.1;
       } else {
-        this.y = 1.3 * GameEnv.innerHeight;
+        //Move Goomba towards Sky
+        this.y = lerp(this.y, 1.3 * GameEnv.innerHeight, 0.05);
       }
     }
 
@@ -37,10 +39,7 @@ export class FlyingGoomba extends Character {
             this.speed = -this.speed;
         }
 
-        this.dropGoomba()
-
-        //Make sure Goomba are flying
-        // this.y = this.yPosition * GameEnv.innerHeight;
+        this.dropGoomba();
 
         // Every so often change direction
         if (Math.random() < 0.005) {
@@ -72,7 +71,15 @@ export class FlyingGoomba extends Character {
             }
         }    
     }
+}
 
+/* Linear interpolation function
+  min: start value
+  max: end value
+  t: normalization factor (0 - 1)
+*/
+function lerp(min, max, t) {
+  return (max - min) * t + min;
 }
 
 export default FlyingGoomba;
