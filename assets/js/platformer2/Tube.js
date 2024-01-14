@@ -21,7 +21,7 @@ export class Tube extends GameObject {
         const scaledHeight = GameEnv.innerHeight * (100 / 832);
         // Formula for Width is scaled: scaledWidth/scaledHeight == this.width/this.height
         const scaledWidth = scaledHeight * this.aspect_ratio;
-        const tubeX = .80 * GameEnv.innerWidth;
+        const tubeX = .90 * GameEnv.innerWidth;
         const tubeY = (GameEnv.bottom - scaledHeight);
 
         // set variables used in Display and Collision algorithms
