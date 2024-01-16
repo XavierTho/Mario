@@ -9,7 +9,7 @@ export class FlyingGoomba extends Character {
 
         //Initial Position of Goomba
         this.x = xPercentage * GameEnv.innerWidth;
-        this.y = 1.3 * GameEnv.innerHeight;
+        this.y = 0.4 * GameEnv.innerHeight;
         
         //Access in which a Goomba can travel
         this.minPosition = minPosition * GameEnv.innerWidth;
@@ -25,17 +25,17 @@ export class FlyingGoomba extends Character {
       // Drop the Goomba on the Player when relatively close
       if (Math.abs(this.x - playerX) < 150 && this.y !== playerY) {
         //Move Goomba towards Player
-        this.y = this.y < playerY ? this.y + 0.1 : this.y - 0.1;
+        this.y = lerp(this.y, playerY, 0.03);
       } else {
         //Move Goomba towards Sky
-        this.y = lerp(this.y, 1.3 * GameEnv.innerHeight, 0.05);
+        this.y = lerp(this.y, 0.4 * GameEnv.innerHeight, 0.02);
       }
     }
 
     update() {
         super.update();
 
-        if (this.x <= this.minPosition || (this.x + this.canvasWidth >= this.maxPosition) || this.x > GameEnv.innerWidth ) {
+        if (this.x <= this.minPosition || (this.x + this.canvasWidth >= this.maxPosition) || this.x > (GameEnv.innerWidth - 100) ) {
             this.speed = -this.speed;
         }
 
